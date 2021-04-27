@@ -10,4 +10,5 @@ Route::group(['prefix' => '/'], function () {
     Route::post('barang', 'indexController@addBarang');
     Route::post('del', 'indexController@delBarang');
     Route::post('sel', 'indexController@ch');
+    Route::post('desel', 'indexController@dh');
 });

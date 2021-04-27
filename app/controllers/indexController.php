@@ -6,7 +6,7 @@ class indexController
 {
     public function index(){
         if(!isset($_SESSION['selected'])){
-            $_SESSION['selected'] = array('na');
+            $_SESSION['selected'] = array();
         }
         $data['barang'] = barang::all();
         echo blade::render('index', $data);
@@ -36,11 +36,25 @@ class indexController
     public function ch(){
         $id = $_POST['id'];
         $brg = barang::where('id',$id)->get();
-        $arr = ['nama'=>$brg[0]->nama, 'barcode'=>$brg[0]->barcode, 'harga'=>$brg[0]->harga,];
+        $arr = ['id'=>$id,'nama'=>$brg[0]->nama, 'barcode'=>$brg[0]->barcode, 'harga'=>$brg[0]->harga,];
         // return print_r($arr);
          $_SESSION['print'][] = $arr;
          array_push($_SESSION['selected'],$id);
          return true;
+    }
+    public function dh(){
+        $id = $_POST['id'];
+        $brg = barang::where('id',$id)->get();
+        $k1 = array_keys($_SESSION['selected'], $id);
+        for($i = 0; $i < count($_SESSION['print']); $i++){
+            if($_SESSION['print'][$i]['id'] == $id){
+                $k2 = $i;
+                // unset($_SESSION['print'][$i]);
+            }
+        }
+        unset($_SESSION['print'][$k2]);
+        unset($_SESSION['selected'][$k1[0]]);
+        return true;
     }
     public function reset(){
         unset($_SESSION['print']);

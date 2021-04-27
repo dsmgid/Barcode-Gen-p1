@@ -41,27 +41,6 @@
                 </tr>
             </thead>
             <tbody>
-                @php
-                    $generator = new Picqer\Barcode\BarcodeGeneratorPNG();
-                @endphp
-                @foreach ($barang as $item)
-                <tr>
-                  <td>{{ $item->id }}</td>
-                  <td>{{ $item->nama }}</td>
-                  <td>{{ $item->harga }}</td>
-                  <td><img src="data:image/png;base64,{{ base64_encode($generator->getBarcode($item->barcode, $generator::TYPE_EAN_13))  }}"></td>
-                  <td>
-                      <button class="btn btn-danger" onclick="delBar(this.value)" value="{{ $item->id }}">Hapus</button>
-                      
-                      @if (in_array($item->id,$_SESSION['selected']))
-                      <button class="btn btn-primary" onclick="rmBar(this.value)" value="{{ $item->id }}">Batal</button>
-                      @else
-                      <button class="btn btn-primary" onclick="addBar(this.value)" value="{{ $item->id }}">Pilih</button>
-                      @endif
-                  </td>
-              </tr>
-                @endforeach
-              
             </tbody>
         </table>
           </div>
@@ -77,14 +56,7 @@
               method: "GET",
               success: function(data) {
                 $('#table').html(data);
-                $('#table').DataTable({
-                  paging: true,
-        scrollX: true,
-        lengthChange : true,
-        searching: true,
-        ordering: true,
-        lengthMenu: [10, 25, 50, 75, 100]
-                });
+                $('#table').DataTable();
                   return true;
               }
           });
@@ -102,6 +74,16 @@
       function addBar(id){
         $.ajax({
               url: "/sel",
+              method: "post",
+              data: {id:id},
+              success: function(data) {
+                getBarang();
+              }
+          });
+      }
+      function rmBar(id){
+        $.ajax({
+              url: "/desel",
               method: "post",
               data: {id:id},
               success: function(data) {
@@ -127,6 +109,7 @@
     });
     $( document ).ready(function() {
     getBarang();
+    
 });
     </script>
 @endsection
