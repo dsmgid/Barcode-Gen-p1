@@ -2,7 +2,9 @@
 
 use Illuminate\Database\Eloquent\Model as Eloquent;
 
-class User extends Eloquent
+class barang extends Eloquent
 {
     protected $table = 'barang';
+    protected $primaryKey = 'id';
+    public $timestamps = false;
 }

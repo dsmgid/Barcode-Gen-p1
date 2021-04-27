@@ -14,7 +14,9 @@ namespace dsmgfw;
  */
 use dsmgfw\cache;
 use Phpfastcache\Config\ConfigurationOption;
+use Illuminate\Container\Container;
 use Illuminate\Database\Capsule\Manager as Capsule;
+use Illuminate\Events\Dispatcher;
 class core
 {
     /**
@@ -29,7 +31,30 @@ class core
         $dotenv = \Dotenv\Dotenv::createImmutable(__DIR__, '/../.env');
         $dotenv->load();
         $capsule = new Capsule;
-        $capsule->bootEloquent();
+
+            $capsule->addConnection([
+                'driver' => 'mysql',
+                'host' => $_ENV['DB_HOST'],
+                'database' => $_ENV['DB_NAME'],
+                'username' => $_ENV['DB_USER'],
+                'password' => $_ENV['DB_PASS'],
+                'charset' => 'utf8',
+                'collation' => 'utf8_unicode_ci',
+                'prefix' => '',
+            ],'default');
+
+
+
+            $capsule->setEventDispatcher(new Dispatcher(new Container));
+
+            // Set the cache manager instance used by connections... (optional)
+            // $capsule->setCacheManager(...);
+
+            // Make this Capsule instance available globally via static methods... (optional)
+            $capsule->setAsGlobal();
+
+            // Setup the Eloquent ORM... (optional; unless you've used setEventDispatcher())
+            $capsule->bootEloquent();
         if ($_ENV['env'] == "dev") {
             $whoops = new \Whoops\Run;
             $whoops->pushHandler(new \Whoops\Handler\PrettyPageHandler);
