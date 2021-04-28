@@ -23,7 +23,7 @@
                             <button class="btn btn-danger" onclick="delBar(this.value)" value="{{ $item->id }}">Hapus</button>
                             
                             @if (in_array($item->id,$_SESSION['selected']))
-                            <button class="btn btn-primary" onclick="rmBar(this.value)" value="{{ $item->id }}">Batal</button>
+                            <button class="btn btn-warning" onclick="rmBar(this.value)" value="{{ $item->id }}">Batal</button>
                             @else
                             <button class="btn btn-primary" onclick="addBar(this.value)" value="{{ $item->id }}">Pilih</button>
                             @endif

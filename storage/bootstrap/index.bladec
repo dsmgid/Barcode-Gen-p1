@@ -27,6 +27,7 @@
 </form>
 <div class="row">
  <div class="col-12">
+ <a class="btn btn-success" href="/print">Print</a>
  <div class="card m-b-30">
  <div class="card-body table-responsive">
  <table id="table" class="table table-bordered dt-responsive nowrap"

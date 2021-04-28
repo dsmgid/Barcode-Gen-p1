@@ -6,7 +6,7 @@ class indexController
 {
     public function index(){
         if(!isset($_SESSION['selected'])){
-            $_SESSION['selected'] = array();
+            $_SESSION['selected'] = [];
         }
         $data['barang'] = barang::all();
         echo blade::render('index', $data);
